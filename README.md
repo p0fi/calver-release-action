@@ -50,16 +50,40 @@ jobs:
 
 ## Development
 
-> First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
+> This action now targets the Node 20 runtime on GitHub Actions. Use Node 20 (or at least ≥18) locally to match the production environment.
 
 Install the dependencies
 ```bash
 $ npm install
 ```
 
-Build the typescript and package it for distribution
+Build the TypeScript, then bundle (via ncc) for distribution (Node 20 runtime expects `dist/index.js`)
 ```bash
 $ npm run build && npm run package
+```
+
+### Code Quality (Biome)
+
+Biome replaces prior ESLint/Prettier setup.
+
+Format (write changes):
+```bash
+$ npm run format
+```
+
+Format check (no changes, CI-friendly):
+```bash
+$ npm run format-check
+```
+
+Lint (analysis + formatting suggestions):
+```bash
+$ npm run lint
+```
+
+Apply autofixable lint issues:
+```bash
+$ npm run lint-fix
 ```
 
 Run the tests :heavy_check_mark:  

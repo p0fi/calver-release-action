@@ -32,7 +32,7 @@ outputs:
   title:
     description: 'Generated string of the release title'
 runs:
-  using: node16
+  using: node20
   main: 'dist/index.js'
 branding:
   icon: 'arrow-up-circle'

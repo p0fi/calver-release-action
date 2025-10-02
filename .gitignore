@@ -68,5 +68,7 @@ Thumbs.db
 src/runner/*
 lib/**/*
 
-dist/
+# NOTE: dist/ is intentionally committed (GitHub Action bundled output)
+# Regenerate with: npm run package
+# Do NOT add dist/ back to .gitignore
 .idea/
