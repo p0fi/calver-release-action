@@ -9,28 +9,25 @@ import * as sinon from 'sinon'
 
 describe('matchVersionPattern', () => {
   describe('supported CalVer', () => {
-    it('CalVer matches YYYY.0M.0D.MINOR pattern is supported', () => {
-      expect(matchVersionPattern('2022.10.01.10001')).toBe(true)
+    it('CalVer matches YYYY.0M.MINOR pattern is supported', () => {
+      expect(matchVersionPattern('2022.10.10001')).toBe(true)
     })
   })
   describe('unsupported CalVer', () => {
     it('CalVer pattern with one-digit month is not supported', () => {
-      expect(matchVersionPattern('2022.1.10.10001')).toBe(false)
-    })
-    it('CalVer with one-digit day is not supported', () => {
-      expect(matchVersionPattern('2022.10.1.10001')).toBe(false)
+      expect(matchVersionPattern('2022.1.10001')).toBe(false)
     })
     it('CalVer with six-digits minor is not supported', () => {
-      expect(matchVersionPattern('2022.12.13.100001')).toBe(false)
+      expect(matchVersionPattern('2022.12.100001')).toBe(false)
     })
     it('CalVer without minor', () => {
-      expect(matchVersionPattern('2022.12.13')).toBe(false)
+      expect(matchVersionPattern('2022.12')).toBe(false)
     })
     it('CalVer with non-digit minor', () => {
-      expect(matchVersionPattern('2022.12.13.a')).toBe(false)
+      expect(matchVersionPattern('2022.12.a')).toBe(false)
     })
     it('CalVer with year-earlier-than-1000', () => {
-      expect(matchVersionPattern('999.12.13.1')).toBe(false)
+      expect(matchVersionPattern('999.12.1')).toBe(false)
     })
   })
 })
@@ -45,13 +42,13 @@ describe('generateVersionPrefix', () => {
   afterEach(function () {
     clock.restore()
   })
-  it('generates YYYY.MM.DD.', () => {
-    expect(generateVersionPrefix('utc')).toMatch(/\d{4}\.\d{2}\.\d{2}./)
-    expect(generateVersionPrefix('utc')).toBe('2017.01.01.')
+  it('generates YYYY.MM.', () => {
+    expect(generateVersionPrefix('utc')).toMatch(/\d{4}\.\d{2}./)
+    expect(generateVersionPrefix('utc')).toBe('2017.01.')
   })
   it('supports different timezones', () => {
-    expect(generateVersionPrefix('America/Los_Angeles')).toBe('2016.12.31.')
-    expect(generateVersionPrefix('Australia/Sydney')).toBe('2017.01.01.')
+    expect(generateVersionPrefix('America/Los_Angeles')).toBe('2016.12.')
+    expect(generateVersionPrefix('Australia/Sydney')).toBe('2017.01.')
   })
 })
 
@@ -72,17 +69,14 @@ describe('generateReleaseTitle', () => {
     expect(generateReleaseTitle('Hello world')).toBe('Hello world')
   })
   it('replaces tag name', () => {
-    expect(generateReleaseTitle('Release ${version}', '2023.01.01.1')).toBe(
-      'Release 2023.01.01.1'
+    expect(generateReleaseTitle('Release ${version}', '2023.01.1')).toBe(
+      'Release 2023.01.1'
     )
     expect(generateReleaseTitle('Release ${version}')).toBe('Release ')
   })
   it('supports complex pattern', () => {
     expect(
-      generateReleaseTitle(
-        '[${version}] リリース 📙 ${version}',
-        '2023.01.01.1'
-      )
-    ).toBe('[2023.01.01.1] リリース 📙 2023.01.01.1')
+      generateReleaseTitle('[${version}] リリース 📙 ${version}', '2023.01.1')
+    ).toBe('[2023.01.1] リリース 📙 2023.01.1')
   })
 })

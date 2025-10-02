@@ -19,7 +19,7 @@
 
 ### Outputs
 
-- version: Generated string of new version (currently only `YYYY.0M.0D.MINOR` is supported)
+- version: Generated string of new version (currently only `YYYY.0M.MINOR` is supported)
 - url: GitHub url for the published release
 - title: Generated string of the release title
 
@@ -38,7 +38,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
-      - uses: cho0o0/calver-release-action@2022.12.14.1
+      - uses: cho0o0/calver-release-action@2022.12.1
         with:
           generate_release_notes: true
           dry_run: false
